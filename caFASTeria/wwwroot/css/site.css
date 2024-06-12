@@ -1,0 +1,57 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.icono-caFASTeria {
+    display: inline-block;
+    width: 100px; /* Ajusta el tamaño según sea necesario */
+    height: 100px; /* Ajusta el tamaño según sea necesario */
+    background-image: url('../assets/LogocaFASTeria.png');
+    background-size: contain; /* Ajusta el tamaño de la imagen dentro del contenedor */
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle; /* Para alinear verticalmente con el texto */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Ajusta el espacio entre el icono y el texto */
+}
+.bg-login-image {
+    background: url("../assets/indexImage.jpg");
+    background-position: center;
+    background-size: cover;
+}
+.img-logo-caFASTeria {
+    background-image: url("../assets/LogocaFASTeria.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100px;
+    width: 100px;
+    margin-bottom: 20px;
+}
+.parent {
+    display: grid;
+    place-items: center;
+}

@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>@ViewData["Title"] - caFASTeria</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/caFASTeria.styles.css" asp-append-version="true" />
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="~/assets/LogocaFASTeria.ico" />
+    <!-- Bootstrap icons-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-icons.css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Font awesom -->
+    <link href="~/lib/fontawesome-free-6.5.2-web/css/fontawesome.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome-free-6.5.2-web/css/brands.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome-free-6.5.2-web/css/solid.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" asp-action="Index" asp-controller="Home"><i class="icono-caFASTeria"></i><h4>caFASTeria</h4></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-shop"></i> Cafeterias</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <form asp-action="Cafeteria" asp-controller="Home" method="post">
+                                    <input type="hidden" name="idCafeteria" value="1" />
+                                    <button class="dropdown-item">
+                                        <i class="fa-solid fa-store"></i> Cafeteria principal
+                                    </button>                            
+                                </form>
+                            </li>
+                            <li>
+                                <form asp-action="Cafeteria" asp-controller="Home" method="post">
+                                    <input type="hidden" name="idCafeteria" value="2" />
+                                    <button class="dropdown-item" >
+                                        <i class="fa-solid fa-burger"></i> Barra de cafe edificio IA
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <form asp-action="Cafeteria" asp-controller="Home" method="post">
+                                    <input type="hidden" name="idCafeteria" value="3" />
+                                    <button class="dropdown-item" >
+                                        <i class="fa-solid fa-paperclip"></i> Papeleria edificio IA
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <form asp-action="Cafeteria" asp-controller="Home" method="post">
+                                    <input type="hidden" name="idCafeteria" value="4" />
+                                    <button class="dropdown-item" >
+                                        <i class="fa-solid fa-mug-hot"></i> Barra de cafe gestion escolar
+                                    </button>                            
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" asp-action="Mercadito" asp-controller="Home"><i class="fa-regular fa-handshake"></i> Mercadito</a></li>
+                    <li class="nav-item"><button class="btn btn-light nav-link" aria-current="page" data-bs-toggle="modal" data-bs-target="#AgregarProductoModal"><i class="fa-solid fa-plus"></i> Agregar Producto</button></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" asp-action="VerProductos" asp-controller="Home"> <i class="fa-regular fa-eye"></i> Ver Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" asp-action="VerPedidos" asp-controller="Home"> <i class="fa-solid fa-utensils"></i> Ver Pedidos</a></li>
+
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="d-flex dropdown ">
+                        <a class="nav-link dropdown-toggle " id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> @ViewBag.UserName</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <form asp-action="Exit" asp-controller="Home" method="post">
+                                    <button class="dropdown-item" type="submit">
+                                        <i class="fa-solid fa-user-xmark"></i> Cerrar Sesion
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <form asp-action="Login" asp-controller="Home" method="post">
+                                    <button class="dropdown-item" type="submit">
+                                        <i class="fa-solid fa-user"></i> Iniciar Sesion
+                                    </button>
+                                </form>
+                            </li>
+                            <li>
+                                <form asp-action="Register" asp-controller="Home" method="post">
+                                    <button class="dropdown-item" type="submit">
+                                        <i class="fa-solid fa-user-plus"></i> Registrarse
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header class=" py-1">
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+        <!-- Modal Agregar Producto -->
+        <div class="modal fade" id="AgregarProductoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form asp-action="AgregarProducto" asp-controller="Home" method="post">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar producto a <i class="fa-regular fa-handshake"></i>  Mercadito</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="NombreProducto" class="form-label">Nombre del producto</label>
+                            <input type="text" class="form-control" id="NombreProducto" required>
+                            <label for="DescripcionProducto" class="form-label">Descripción del producto</label>
+                            <input type="text" class="form-control" id="DescripcionProducto" required>
+                            <label for="CostoProducto" class="form-label">Costo del producto</label>
+                            <input type="text" class="form-control" id="CostoProducto" required>
+                            <label class="form-label" for="fotoProducto">Foto del Producto</label>
+                            <input type="file" class="form-control" id="fotoProducto" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - caFASTeria - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
