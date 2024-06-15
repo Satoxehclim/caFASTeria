@@ -22,10 +22,9 @@ body {
 }
 
 .icono-caFASTeria {
-    display: inline-block;
     width: 100px; /* Ajusta el tamaño según sea necesario */
     height: 100px; /* Ajusta el tamaño según sea necesario */
-    background-image: url('../assets/LogocaFASTeria.png');
+    background-image: url('../assets/LogocaFASTeria.jpg');
     background-size: contain; /* Ajusta el tamaño de la imagen dentro del contenedor */
     background-repeat: no-repeat;
     background-position: center;
@@ -55,3 +54,86 @@ body {
     display: grid;
     place-items: center;
 }
+.gapeado {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.gapeado {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.aliniacion-izquierda {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.form-label {
+    text-align: left;
+    display: block;
+}
+
+footer {
+    color: #ffffff;
+}
+header {
+    color: #ffffff;
+}
+.text-white-personal {
+    color: #ffffff;
+}
+.text-gray-personal {
+    color: #C0C0C0;
+}
+
+.preview {
+    margin-top: 20px;
+    width: 400px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    background-color: #f0f0f0; /* Color de fondo para cuando no hay imagen */
+}
+
+    .preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* O puedes usar 'contain' dependiendo de tus necesidades */
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+.navbar-custom {
+    background-color: #023374; /* Color de fondo de la navbar */
+}
+
+    .navbar-custom .navbar-brand,
+    .navbar-custom .navbar-nav .nav-link,
+    .navbar-custom .navbar-toggler {
+        color: #FFFFFF; /* Color del texto e iconos */
+    }
+
+        .navbar-custom .navbar-brand:hover,
+        .navbar-custom .navbar-nav .nav-link:hover,
+        .navbar-custom .navbar-toggler:hover {
+            color: #C0C0C0; /* Color del texto e iconos al pasar el mouse */
+        }
+
+    .navbar-custom .navbar-toggler {
+        border-color: #FFFFFF; /* Color del borde del toggler */
+    }
+
+        .navbar-custom .navbar-toggler:hover {
+            border-color: #C0C0C0; /* Color del borde del toggler al pasar el mouse */
+        }
+
+    .navbar-custom .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+
+    .navbar-custom .navbar-toggler:hover .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(192, 192, 192, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+    

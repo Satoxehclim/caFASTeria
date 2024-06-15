@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/HQi5pjwnWVFgpr5zyVDQA1h/4f05L5kZbnD0qK2bMk=",
+  "Hash": "pGQgxQOmSmvvSwJBZsMwedzcbOrDbqr3VmhbEBcxSFs=",
   "Source": "caFASTeria",
   "BasePath": "_content/caFASTeria",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\LogocaFASTeria.png"
+    },
+    {
+      "Identity": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\assets\\logoESCOM.png",
+      "SourceId": "caFASTeria",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\",
+      "BasePath": "_content/caFASTeria",
+      "RelativePath": "assets/logoESCOM.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\logoESCOM.png"
     },
     {
       "Identity": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\css\\site.css",

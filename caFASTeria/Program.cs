@@ -1,7 +1,25 @@
+using caFASTeria.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// ADD DB conection
+builder.Services.AddDbContext<CaFasteriaContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+
+// ADD sesion
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -19,6 +37,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

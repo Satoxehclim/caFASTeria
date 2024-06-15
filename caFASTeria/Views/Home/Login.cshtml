@@ -16,25 +16,31 @@
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6">
-                                <div class="p-5">
+                                <div class="p-5 ">
                                     <div class="parent">
                                         <div class="img-logo-caFASTeria"></div>
                                     </div>
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Bienvenido a caFASTeria</h1>
                                     </div>
-                                    <form asp-action="IniciarSesion" class="form-group" method="post">
-                                        <input type="text" class="form-control" name="usuario" placeholder="Ingrese su usuario..." required>
-                                        <br />
-                                        <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
-                                        <br />
-                                        <button class="btn btn-primary " type="submit">
-                                            Inicias Sesion
-                                        </button>
-                                        <a asp-action="Register" asp-controller="Home" class="btn btn-secondary " type="submit">
-                                            Registrarse
-                                        </a>
-                                    </form>
+                                    <div class="container mt-1">
+                                        <form asp-action="IniciarSesion" class="form-group d-grid gap-1" method="post">
+                                            <label for="usuario" class="form-label">Correo Electronico:</label>
+                                            <input type="text" id="usuario" class="form-control" name="correo" placeholder="Ingrese su correo..." required>
+                                            <label for="password" class="form-label">Contraseña:</label>
+                                            <input type="password" id="password" class="form-control" name="contrase" placeholder="Contraseña" required>
+                                            @if (ViewBag.ErrorLogin == 1)
+                                            {
+                                                <div class="text-danger">Ha ocurrido un error al crear la cuenta.</div>
+                                            }
+                                            <button class="btn btn-primary mt-2" type="submit">
+                                                Iniciar Sesión
+                                            </button>
+                                            <a asp-action="Register" asp-controller="Home" class="btn btn-secondary mt-2">
+                                                Registrarse
+                                            </a>
+                                        </form>
+                                    </div>
                                     <p class="h4 text-danger">@ViewBag.errorCredenciales</p>
                                 </div>
                             </div>

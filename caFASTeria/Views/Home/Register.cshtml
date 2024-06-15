@@ -23,23 +23,28 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Registrarse en caFASTeria</h1>
                                     </div>
-                                    <form asp-action="IniciarSesion" class="form-group" method="post">
-                                        <br />
-                                        <input type="text" id="nombre" class="form-control" name="nombre" placeholder="Ingrese su nombre..." required>
-                                        <br />
-                                        <input type="text" id="usuario" class="form-control" name="usuario" placeholder="Ingrese su usuario..." required>
-                                        <br />
-                                        <input type="text" id="password" class="form-control" name="password" placeholder="Ingrese su Contraseña" required>
-                                        <br />
-                                        <input type="tel" id="telefono" class="form-control" name="telefono" placeholder="Ingrese su telefono" required>
-                                        <br />
-                                        <button class="btn btn-primary " type="submit">
-                                            Registrarse
-                                        </button>
-                                        <a asp-action="Login" asp-controller="Home" class="btn btn-secondary " type="submit">
-                                            Iniciar Sesion
-                                        </a>
-                                    </form>
+                                    <div class="container mt-1">
+                                        <form asp-action="Registro" class="form-group d-grid gap-1" method="post">
+                                            <label for="nombre" class="form-label">Nombre:</label>
+                                            <input type="text" id="nombre" class="form-control" name="nombre" placeholder="Ingrese su nombre..." required>
+                                            <label for="usuario" class="form-label">Correo Electronico:</label>
+                                            <input type="email" id="usuario" class="form-control" name="correo" placeholder="Ingrese su Correo electronico..." required>
+                                            <label for="password" class="form-label">Contraseña:</label>
+                                            <input type="password" id="password" class="form-control" name="contrase" placeholder="Ingrese su Contraseña" required>
+                                            <label for="telefono" class="form-label">Teléfono:</label>
+                                            <input type="tel" id="telefono" class="form-control" name="telefono" placeholder="Ingrese su teléfono" required>
+                                            @if (ViewBag.ErrorRegistro == 1)
+                                            {
+                                                <div class="text-danger">Ha ocurrido un error al crear la cuenta.</div>
+                                            }
+                                            <button class="btn btn-primary mt-2" type="submit">
+                                                Registrarse
+                                            </button>
+                                            <a asp-action="Login" asp-controller="Home" class="btn btn-secondary mt-2">
+                                                Iniciar Sesión
+                                            </a>
+                                        </form>
+                                    </div>
                                     <p class="h4 text-danger">@ViewBag.errorCredenciales</p>
                                 </div>
                             </div>

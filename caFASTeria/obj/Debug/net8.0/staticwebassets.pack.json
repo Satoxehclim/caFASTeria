@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\assets\\indexImage.jpg"
     },
     {
+      "Id": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\assets\\logoESCOM.png",
+      "PackagePath": "staticwebassets\\assets\\logoESCOM.png"
+    },
+    {
       "Id": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

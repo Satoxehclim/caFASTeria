@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using System.Text.Json;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor httpContextAccesor;
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -12,22 +16,27 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-icons.css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" href="~/css/styles.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <!-- Font awesom -->
     <link href="~/lib/fontawesome-free-6.5.2-web/css/fontawesome.css" rel="stylesheet" />
     <link href="~/lib/fontawesome-free-6.5.2-web/css/brands.css" rel="stylesheet" />
     <link href="~/lib/fontawesome-free-6.5.2-web/css/solid.css" rel="stylesheet" />
+
 </head>
 <body>
+    @{
+        string cuentaJson = httpContextAccesor.HttpContext.Session.GetString("_cuenta");
+        Cuentum _cuenta = JsonSerializer.Deserialize<Cuentum>(cuentaJson);
+    }
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <header class="navbar navbar-expand-lg navbar-custom">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" asp-action="Index" asp-controller="Home"><i class="icono-caFASTeria"></i><h4>caFASTeria</h4></a>
+            <a class="navbar-brand" asp-action="Home" asp-controller="Home"><i class="icono-caFASTeria"></i><h4>caFASTeria</h4></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-shop"></i> Cafeterias</a>
+                        <a class="nav-link dropdown-toggle text-white-personal" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-shop"></i> Cafeterias</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
                                 <form asp-action="Cafeteria" asp-controller="Home" method="post">
@@ -63,79 +72,128 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" aria-current="page" asp-action="Mercadito" asp-controller="Home"><i class="fa-regular fa-handshake"></i> Mercadito</a></li>
-                    <li class="nav-item"><button class="btn btn-light nav-link" aria-current="page" data-bs-toggle="modal" data-bs-target="#AgregarProductoModal"><i class="fa-solid fa-plus"></i> Agregar Producto</button></li>
-                    <li class="nav-item"><a class="nav-link" aria-current="page" asp-action="VerProductos" asp-controller="Home"> <i class="fa-regular fa-eye"></i> Ver Productos</a></li>
-                    <li class="nav-item"><a class="nav-link" aria-current="page" asp-action="VerPedidos" asp-controller="Home"> <i class="fa-solid fa-utensils"></i> Ver Pedidos</a></li>
+                    <li class="nav-item "><a class="nav-link" aria-current="page" asp-action="Mercadito" asp-controller="Home"><i class="fa-regular fa-handshake"></i> Mercadito</a></li>
 
                 </ul>
                 <ul class="navbar-nav">
                     <li class="d-flex dropdown ">
-                        <a class="nav-link dropdown-toggle " id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> @ViewBag.UserName</a>
+                            @{
+                                if(_cuenta.IdCuenta == 0)
+                                {
+                                <a class="nav-link dropdown-toggle " id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> Cuenta</a>
+                                }
+                                else
+                                {
+                                <a class="nav-link dropdown-toggle " id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i> @_cuenta.Nombre</a>
+                                }
+                            }
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <form asp-action="Exit" asp-controller="Home" method="post">
-                                    <button class="dropdown-item" type="submit">
-                                        <i class="fa-solid fa-user-xmark"></i> Cerrar Sesion
-                                    </button>
-                                </form>
-                            </li>
-                            <li>
-                                <form asp-action="Login" asp-controller="Home" method="post">
-                                    <button class="dropdown-item" type="submit">
-                                        <i class="fa-solid fa-user"></i> Iniciar Sesion
-                                    </button>
-                                </form>
-                            </li>
-                            <li>
-                                <form asp-action="Register" asp-controller="Home" method="post">
-                                    <button class="dropdown-item" type="submit">
-                                        <i class="fa-solid fa-user-plus"></i> Registrarse
-                                    </button>
-                                </form>
-                            </li>
+                            @{
+                                if(_cuenta.IdCuenta == 0)
+                                {
+                                    <li>
+                                        <form asp-action="Login" asp-controller="Home" method="post">
+                                            <button class="dropdown-item" type="submit">
+                                                <i class="fa-solid fa-user"></i> Iniciar Sesion
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form asp-action="Register" asp-controller="Home" method="post">
+                                            <button class="dropdown-item" type="submit">
+                                                <i class="fa-solid fa-user-plus"></i> Registrarse
+                                            </button>
+                                        </form>
+                                    </li>
+                                }else
+                                {
+                                    <li>
+                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#AgregarProductoModal">
+                                            <i class="fa-solid fa-plus"></i> Agregar Producto
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="VerProductos" asp-controller="Home">
+                                            <i class="fa-regular fa-eye"></i> Ver mis Productos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="VerPedidos" asp-controller="Home">
+                                            <i class="fa-solid fa-utensils"></i> Ver mis Pedidos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                            <i class="fa-solid fa-user-xmark"></i> Cerrar Sesion
+                                        </button>
+                                    </li>
+                                }
+                            }
+                            
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
-    </nav>
-    <header class=" py-1">
     </header>
-    <div class="container">
+    <nav>
+    </nav>
+    <article class="container ">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-        <!-- Modal Agregar Producto -->
-        <div class="modal fade" id="AgregarProductoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form asp-action="AgregarProducto" asp-controller="Home" method="post">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar producto a <i class="fa-regular fa-handshake"></i>  Mercadito</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <label for="NombreProducto" class="form-label">Nombre del producto</label>
-                            <input type="text" class="form-control" id="NombreProducto" required>
-                            <label for="DescripcionProducto" class="form-label">Descripción del producto</label>
-                            <input type="text" class="form-control" id="DescripcionProducto" required>
-                            <label for="CostoProducto" class="form-label">Costo del producto</label>
-                            <input type="text" class="form-control" id="CostoProducto" required>
-                            <label class="form-label" for="fotoProducto">Foto del Producto</label>
-                            <input type="file" class="form-control" id="fotoProducto" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Agregar</button>
-                        </div>
+        
+    </article>
+    <!-- Modal Agregar Producto -->
+    <div class="modal fade " id="AgregarProductoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+                <form asp-action="AgregarProducto" asp-controller="Home" enctype="multipart/form-data" method="post">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar producto a <i class="fa-regular fa-handshake"></i>  Mercadito</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body ">
+                        <label for="NombreProducto" class="form-label">Nombre del producto</label>
+                        <input name="nombre" type="text" class="form-control" id="NombreProducto" required>
+                        <label for="DescripcionProducto" class="form-label">Descripción del producto</label>
+                        <input name="descripcion" type="text" class="form-control" id="DescripcionProducto" required>
+                        <label for="CostoProducto" class="form-label">Costo del producto</label>
+                        <input name="costo" type="text" class="form-control" id="CostoProducto" required>
+                        <label class="form-label" for="fotoProducto">Foto del Producto (Recomendado 500px X 500px)</label>
+                        <input name="foto" type="file" class="form-control" id="fotoProducto" accept=".jpg, .jpeg, .png" required>
+
+                        <div class="d-flex justify-content-center align-items-center ">
+                                <div class="preview" id="file-preview"></div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">¿Esta seguro de cerrar sesion?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Si desea cerrar sesion haga click en el boton "Cerrar Sesion".</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                    <form asp-action="Exit" asp-controller="Home" method="post">
+                        <button class="btn btn-primary">Cerrar Sesion</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <footer class="border-top footer text-muted">
+    <footer class="footer bg-dark">
         <div class="container">
             &copy; 2024 - caFASTeria - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
