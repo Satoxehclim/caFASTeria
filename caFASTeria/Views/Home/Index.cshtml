@@ -1,37 +1,43 @@
-﻿@using System.Text.Json;
+﻿@model PageViewModel<Producto>
+@using System.Text.Json;
 @using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor httpContextAccesor;
-@{
-    ViewData["Title"] = "Inicio";
-
-}
 
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
+        <ul class="list-group">
+            @if (ViewBag.PedidoRealizado == true)
+            {
+                <li class="list-group-item list-group-item-success">Compra Realizada con Exito</li>
+            }
+            else if (ViewBag.PedidoError == true)
+            {
+                <li class="list-group-item list-group-item-success">Error al comprar producto, volver a intentar</li>
+            }
+        </ul>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             @{
-                string productosJson = httpContextAccesor.HttpContext.Session.GetString("_productos");
-                List<Producto> _productos = JsonSerializer.Deserialize<List<Producto>>(productosJson);
-                Random random = new Random();
-                foreach (Producto p in _productos)
+                string compradorJson = httpContextAccesor.HttpContext.Session.GetString("_cuenta");
+                Cuentum _comprador = JsonSerializer.Deserialize<Cuentum>(compradorJson);
+                foreach (Producto p in Model.Items)
                 {
                     <div class="col mb-5">
                         <div class="card bg-dark h-100">
                             <!-- Product image-->
-                            <img class="card-img-top" src="~/assets/LogocaFASTeria.jpg" alt="..." />
+                            <img class="card-img-top" src="@Url.Action("GetImage", "Home", new { filename = p.FotoNavigation.Direcion })" alt="..." />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <!-- Product name-->
-                                <h5 class="text-center text-white-personal">Gorditas de nata</h5>
+                                <h5 class="text-center text-white-personal">@p.Nombre</h5>
                                 <!-- Product price-->
                                 <div class="text-center text-white-personal">
-                                    <h4>$18.00</h4>
+                                    <h4>$@p.Precio</h4>
                                 </div>
                                 <!-- Product reviews-->
                                 <div class="d-flex justify-content-center  mb-2">
                                     @{
-                                        int numale = random.Next(-1, 6);
+                                        int numale = p.Calificacion;
                                         for (int j = 0; j < 5; j++)
                                         {
                                             if (j <= numale)
@@ -49,70 +55,88 @@
                                 </div>
                                 <!-- Product Description-->
                                 <div class="text-left text-white-personal">
-                                    Descripcion: <span class="text-gray-personal">Descripcion del articulo al que se esta haciendo referencia</span>
-                                    Vendedor: <span class="text-gray-personal">Abraham Roman Ramirez</span>
-                                    Telefono: <span class="text-gray-personal">5546814751</span>
+                                    Descripcion: <span class="text-gray-personal">@p.Descripcion</span><br />
+                                    Vendedor: <span class="text-gray-personal">@p.VendedorNavigation.Nombre</span><br />
+                                    Telefono: <span class="text-gray-personal">@p.VendedorNavigation.Telefono</span>
                                 </div>
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-light mt-auto" href="#">Realizar pedido</a></div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-outline-light mt-auto" data-toggle="modal" data-target="#Producto_@p.IdProducto">
+                                        Realizar pedido
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 }
-
-                /*
-                Random random = new Random();
-                for (int i = 0; i < 20; i++)
-                {
-                    
-                    <div class="col mb-5">
-                        <div class="card bg-dark h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="~/assets/LogocaFASTeria.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <!-- Product name-->
-                                <h5 class="text-center text-white-personal">Gorditas de nata</h5>
-                                <!-- Product price-->
-                                <div class="text-center text-white-personal">
-                                    <h4>$18.00</h4>
-                                </div>
-                                <!-- Product reviews-->
-                                <div class="d-flex justify-content-center  mb-2">
-                                    @{
-                                        int numale = random.Next(-1,6);
-                                        for (int j = 0; j < 5; j++)
-                                        {
-                                            if (j<=numale)
-                                            {
-                                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
-                                            }
-                                        }
-                                    }
-                                    
-                                    
-                                </div>
-                                <!-- Product Description-->
-                                <div class="text-left text-white-personal">
-                                    Descripcion: <span class="text-gray-personal">Descripcion del articulo al que se esta haciendo referencia</span>
-                                    Vendedor: <span class="text-gray-personal">Abraham Roman Ramirez</span>
-                                    Telefono: <span class="text-gray-personal">5546814751</span>
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-light mt-auto" href="#">Realizar pedido</a></div>
-                            </div>
-                        </div>
-                    </div>
-                }*/
             }
         </div>
     </div>
+    <nav>
+        <ul class="pagination">
+            @for(int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "Active" : "")">
+                    @if (ViewData["Title"].Equals("Mercadito"))
+                    {
+                        <a class="page-link" asp-action="Mercadito"  asp-route-page="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+                    }
+                    else if (ViewData["Title"].Equals("Cafeteria"))
+                    {
+                        <a class="page-link" asp-action="Cafeteria" asp-route-idCafeteria="@ViewBag.cafeteriaActual" asp-route-page="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+                    }
+                    else
+                    {
+                        <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+                    }
+                </li>
+            }
+        </ul>
+    </nav>
 </section>
+<!-- Seccion de Modales -->
+<!--  ModalComprar -->
+@foreach (Producto p in Model.Items)
+{
+    <form asp-action="Comprar" method="post">
+        <div class="modal fade" id="Producto_@p.IdProducto">
+            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6>Comprar Producto</h6>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="">
+                            <p class="d-inline bg-dark text-light"> Producto: </p> @p.Nombre
+                        </h6>
+                        <input type="hidden" name="idProducto" value="@p.IdProducto" />
+                        <input type="hidden" name="idComprador" value="@_comprador.IdCuenta" />
+                        <label for="cant_@p.IdProducto">Cantidad a comprar:</label>
+                        <input type="number" name="cantidad" id="cant_@p.IdProducto" min="0" class="form-control" required/>
+                        <label for="Entrga_@p.IdProducto">Punto de entrega del producto:</label>
+                        <textarea id="Entrga_@p.IdProducto" name="PuntoEntrega" class="form-control" maxlength="250" required></textarea>
+                        <small id="EntrgacharCount_@p.IdProducto" class="form-text char-count">250 caracteres restantes</small>
+                        <script>
+                            var textarea = document.getElementById('Entrga_@p.IdProducto');
+                            var charCount = document.getElementById('EntrgacharCount_@p.IdProducto');
+
+                            textarea.addEventListener('input', function () {
+                                var remaining = 250 - textarea.value.length;
+                                charCount.textContent = remaining + ' caracteres restantes';
+                            });
+                        </script>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Realizar Compra</button>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}

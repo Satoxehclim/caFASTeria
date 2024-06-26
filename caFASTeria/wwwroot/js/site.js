@@ -19,3 +19,11 @@ document.getElementById('fotoProducto').addEventListener('change', function (eve
         preview.textContent = 'Por favor selecciona un archivo JPG o PNG válido.';
     }
 });
+
+var textarea = document.getElementById('CrearDescripcionProducto');
+var charCount = document.getElementById('CrearDescripcionProductocharCount');
+
+textarea.addEventListener('input', function () {
+    var remaining = 250 - textarea.value.length;
+    charCount.textContent = remaining + ' caracteres restantes';
+});

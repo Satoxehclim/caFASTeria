@@ -7,7 +7,7 @@ public partial class Foto
 {
     public int Idfoto { get; set; }
 
-    public string Direcion { get; set; } = null!;
+    public string? Direcion { get; set; }
 
     public virtual ICollection<Producto> Productos { get; set; } = new List<Producto>();
 }

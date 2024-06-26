@@ -15,6 +15,8 @@ public partial class Pedido
 
     public int Estado { get; set; }
 
+    public string PuntoDeEntrega { get; set; } = null!;
+
     public virtual Cuentum CompradorNavigation { get; set; } = null!;
 
     public virtual Producto ProductoNavigation { get; set; } = null!;

@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.VisualBasic.FileIO;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace caFASTeria.Controllers
@@ -21,26 +22,69 @@ namespace caFASTeria.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int pageSize = 12)
         {
             _cuenta.IdCuenta = 0;
             _cuenta.Nombre = "";
             _cuenta.Usuario = "";
             _cuenta.Contrasena = "";
             _cuenta.Telefono = "";
-            List<Producto> productosMostrados = _context.Productos.ToList();
-            HttpContext.Session.SetString("_productos", JsonSerializer.Serialize(productosMostrados));
+            List<Producto> productosMostrados = _context.Productos.Include(p => p.VendedorNavigation)
+                                                                  .Include(p => p.FotoNavigation)
+                                                                  .Skip((page-1)*pageSize)
+                                                                  .Take(pageSize)
+                                                                  .ToList();
+            int totalProductos = _context.Productos.Include(p => p.VendedorNavigation)
+                                                   .Include(p => p.FotoNavigation)
+                                                   .Count();
+            PageViewModel<Producto> model = new PageViewModel<Producto>
+            {
+                Items = productosMostrados,
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = totalProductos
+            };
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta ==2).ToList();
+            ViewBag.cafeterias = cafeterias;
             HttpContext.Session.SetString("_cuenta", JsonSerializer.Serialize(_cuenta));
-            return View();
+            ViewData["Title"] = "Inicio";
+            return View("Index", model);
+        }
+
+        public IActionResult Inicio(int page = 1, int pageSize = 12)
+        {
+            List<Producto> productosMostrados = _context.Productos.Include(p => p.VendedorNavigation)
+                                                                  .Include(p => p.FotoNavigation)
+                                                                  .Skip((page - 1) * pageSize)
+                                                                  .Take(pageSize)
+                                                                  .ToList();
+            int totalProductos = _context.Productos.Include(p => p.VendedorNavigation)
+                                                   .Include(p => p.FotoNavigation)
+                                                   .Count();
+            PageViewModel<Producto> model = new PageViewModel<Producto>
+            {
+                Items = productosMostrados,
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = totalProductos
+            };
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+            ViewBag.cafeterias = cafeterias;
+            ViewData["Title"] = "Inicio";
+            return View("Index", model);
         }
 
         public IActionResult Privacy()
         {
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+            ViewBag.cafeterias = cafeterias;
             return View();
         }
 
         public IActionResult Login()
         {
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+            ViewBag.cafeterias = cafeterias;
             return View();
         }
         public IActionResult IniciarSesion(string correo, string contrase)
@@ -52,13 +96,21 @@ namespace caFASTeria.Controllers
                 Cuentum nuevaCuenta = new Cuentum();
                 nuevaCuenta = _context.Cuenta.FirstOrDefault(b => b.Usuario.Equals(correo) && b.Contrasena.Equals(contrase));
                 HttpContext.Session.SetString("_cuenta", JsonSerializer.Serialize(nuevaCuenta));
-                return View("Index");
+                return Inicio(1,12);
             }
             else
             {
+                List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+                ViewBag.cafeterias = cafeterias;
                 ViewBag.ErrorLogin = 1;
                 return View("Login");
             }
+        }
+        public IActionResult Register()
+        {
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+            ViewBag.cafeterias = cafeterias;
+            return View();
         }
 
         public IActionResult Registro(string nombre, string correo, string contrase, string telefono)
@@ -74,60 +126,110 @@ namespace caFASTeria.Controllers
                 nuevaCuenta.Usuario = correo;
                 nuevaCuenta.Contrasena = contrase;
                 nuevaCuenta.Telefono = telefono;
+                nuevaCuenta.TipoCuenta = 1;
                 _context.Cuenta.Add(nuevaCuenta);
                 _context.SaveChanges();
                 HttpContext.Session.SetString("_cuenta", JsonSerializer.Serialize(nuevaCuenta));
-                return View("Index");
+                return Inicio(1, 12);
             }
             else
             {
+                List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+                ViewBag.cafeterias = cafeterias;
                 ViewBag.ErrorRegistro = 1;
                 return View("Register");
             }
         }
-        public IActionResult Register()
+
+        public IActionResult Cafeteria(int idCafeteria,int page=1,int pageSize = 12)
         {
-            return View();
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+            List<Producto> productosMostrados = _context.Productos.Where(p => p.Vendedor == idCafeteria)
+                                                                  .Skip((page - 1) * pageSize)
+                                                                  .Take(pageSize)
+                                                                  .ToList();
+            int totalProductos = _context.Productos.Where(p => p.Vendedor == idCafeteria).Count();
+            PageViewModel<Producto> model = new PageViewModel<Producto>
+            {
+                Items = productosMostrados,
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = totalProductos
+            };
+            ViewBag.cafeterias = cafeterias;
+            ViewBag.cafeteriaActual = idCafeteria;
+            ViewData["Title"] = "Cafeteria";
+            return View("Index", model);
+        }   
+
+        public IActionResult Mercadito(int page = 1, int pageSize = 12 )
+        {
+            List<Cuentum> cuentasNormales = _context.Cuenta.Where(c => c.TipoCuenta == 1).ToList();
+            List<Producto> productosMostrados = new List<Producto>();
+            foreach (Cuentum c in cuentasNormales)
+            {
+                productosMostrados.AddRange(_context.Productos.Where(p => p.Vendedor == c.IdCuenta)
+                                                              .Include(p => p.FotoNavigation)
+                                                              .Skip((page - 1) * pageSize)
+                                                              .Take(pageSize)
+                                                              .ToList());
+            }
+            List<Producto> productosMostrados2 = new List<Producto>();
+            foreach (Cuentum c in cuentasNormales)
+            {
+                productosMostrados2.AddRange(_context.Productos.Where(p => p.Vendedor == c.IdCuenta)
+                                                              .Include(p => p.FotoNavigation)
+                                                              .ToList());
+            }
+            int totalProductos = productosMostrados2.Count();
+            PageViewModel<Producto> model = new PageViewModel<Producto>
+            {
+                Items = productosMostrados,
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = totalProductos
+            };
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+            ViewBag.cafeterias = cafeterias;
+            ViewData["Title"] = "Mercadito";
+            return View("Index", model);
         }
 
-        public IActionResult Cafeteria(int idCafeteria)
+        public IActionResult GetImage(string filename)
         {
-            return View("Index");
+            string rutaSitio = Directory.GetCurrentDirectory();
+            var path = Path.Combine(rutaSitio, "Repositorio", filename);
+
+            if (!System.IO.File.Exists(path))
+            {
+                path = Path.Combine(rutaSitio, "wwwroot", "assets", "LogocaFASTeria.jpg");
+                var imageError = System.IO.File.OpenRead(path);
+                return File(imageError, "image/jpeg");
+            }
+
+            var image = System.IO.File.OpenRead(path);
+            return File(image, "image/jpeg"); // Ajusta el tipo MIME según sea necesario
         }
 
-        public IActionResult Mercadito()
-        {
-            return View("Index");
-        }
-
-        public IActionResult VerProductos()
-        {
-            return View("Index");
-        }
-        public IActionResult VerPedidos()
-        {
-            return View();
-        }
-        
         public IActionResult Exit()
         {
-            return RedirectToAction("Index");
+            return Index(1,12);
         }
 
         public IActionResult Home()
         {
-            return View("Index");
+            return Inicio(1,12);
         }
-         
         public IActionResult AgregarProducto(string nombre, string descripcion, float costo, IFormFile foto)
         {
             if (foto != null && (Path.GetExtension(foto.FileName).ToLower() != ".jpg" || Path.GetExtension(foto.FileName).ToLower() != ".png") && nombre.Length > 2 && descripcion.Length < 200 && descripcion.Length > 2 && costo > 0)
             {
+                string nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(foto.FileName);
                 string cuentaJson = HttpContext.Session.GetString("_cuenta");
                 Cuentum cuenta = JsonSerializer.Deserialize<Cuentum>(cuentaJson);
                 string rutaSitio = Directory.GetCurrentDirectory();
-                string direccionFoto = Path.Combine(rutaSitio, "Repositorio" ,"FotosDeCuenta" + cuenta.IdCuenta, foto.FileName);
-                var pathCarpeta = Path.Combine(rutaSitio, "Repositorio", "FotosDeCuenta" + cuenta.IdCuenta);
+                string direccionFoto = Path.Combine(rutaSitio, "Repositorio" ,nombreArchivo);
+                var pathCarpeta = Path.Combine(rutaSitio, "Repositorio");
                 if (!Directory.Exists(pathCarpeta))
                 {
                     Directory.CreateDirectory(pathCarpeta);
@@ -137,7 +239,7 @@ namespace caFASTeria.Controllers
                     using (var stream = new FileStream(direccionFoto, FileMode.Create))
                     {
                         Foto nuevaFoto = new Foto();
-                        nuevaFoto.Direcion = direccionFoto;
+                        nuevaFoto.Direcion = nombreArchivo;
                         _context.Fotos.Add(nuevaFoto);
                         _context.SaveChanges();
                         foto.CopyTo(stream);
@@ -147,25 +249,170 @@ namespace caFASTeria.Controllers
                         nuevoProducto.Precio = costo;
                         nuevoProducto.Vendedor = cuenta.IdCuenta;
                         nuevoProducto.Foto = nuevaFoto.Idfoto;
+                        nuevoProducto.Calificacion = 5;
                         _context.Productos.Add(nuevoProducto);
                         _context.SaveChanges();
                     }
                 }
                 List<Producto> productosMostrados = _context.Productos.ToList();
-                HttpContext.Session.SetString("_productos", JsonSerializer.Serialize(productosMostrados));
-                return View("Index");
+                ViewBag.productos =productosMostrados;
+                return Inicio(1, 12);
             }
             else
             {
-                return View("Index");
+                return Inicio();
             }
         }
+        public IActionResult VerProductos(int page=1, int pageSize = 20, int error=0, int editado=0)
+        {
+            string usuarioJson = HttpContext.Session.GetString("_cuenta");
+            var _usuario = JsonSerializer.Deserialize<Cuentum>(usuarioJson);
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+            List<Producto> productosMostrados = _context.Productos.Where(p => p.Vendedor == _usuario.IdCuenta)
+                                                                  .Include(p => p.VendedorNavigation)
+                                                                  .Include(p => p.FotoNavigation)
+                                                                  .Skip((page - 1) * pageSize)
+                                                                  .Take(pageSize)
+                                                                  .ToList();
+            int totalProductos = _context.Productos.Where(p => p.Vendedor == _usuario.IdCuenta).Count();
+            PageViewModel<Producto> model = new PageViewModel<Producto>
+            {
+                Items = productosMostrados,
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = totalProductos
+            };
+            ViewBag.cafeterias = cafeterias;
+            ViewBag.ErrorEditar = error;
+            ViewBag.OkEditar = editado;
+            ViewData["Title"] = "Cafeteria";
+            return View("VerProductos", model);
+        }
 
+        public IActionResult EditarProducto(int idProducto,string nombre, string descripcion, float costo, IFormFile foto)
+        {
+            try
+            {
+                Producto p = _context.Productos.Include(f => f.FotoNavigation).Where(p => p.IdProducto == idProducto).FirstOrDefault();
+                p.Nombre = nombre;
+                p.Descripcion = descripcion;
+                p.Precio = costo;
+                if (foto == null)
+                {
+                    _context.SaveChanges();
+                    return VerProductos(1, 20,0,1);
+                }
+                else
+                {
+                    string rutaSitio = Directory.GetCurrentDirectory();
+                    var path = Path.Combine(rutaSitio, "Repositorio",p.FotoNavigation.Direcion);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                    string nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(foto.FileName);
+                    var newpath = Path.Combine(rutaSitio, "Repositorio",nombreArchivo);
+                    if (!System.IO.File.Exists(newpath))
+                    {
+                        using (var stream = new FileStream(newpath, FileMode.Create))
+                        {
+                            p.FotoNavigation.Direcion = nombreArchivo;
+                            foto.CopyTo(stream);
+                            _context.SaveChanges();
+                        }
+                    }
+                    return VerProductos(1, 20,0,1);
+                }
+            }
+            catch(Exception ex)
+            {
+                return VerProductos(1,20,1,0);
+            }
+        }
+        public IActionResult EliminarProducto(int idProducto)
+        {
+            try
+            {
+                Producto p = _context.Productos.Find(idProducto);
+                Foto f = _context.Fotos.Find(p.Foto);
+                string rutaSitio = Directory.GetCurrentDirectory();
+                var path = Path.Combine(rutaSitio, "Repositorio", p.FotoNavigation.Direcion);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                _context.Remove(p);
+                _context.Remove(f);
+                _context.SaveChanges();
+                return VerProductos(1, 20, 0, 1);
+            }
+            catch(Exception ex)
+            {
+
+                return VerProductos(1, 20, 1, 0);
+            }
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        
+/////////////////////////////////////////////////// falta programar//////////////////////////////////////////////////////
+
+        public IActionResult Comprar(int idProducto, int idComprador, int cantidad, string PuntoEntrega)
+        {
+            try
+            {
+                Pedido p = new Pedido();
+                p.Producto = idProducto;
+                p.Cantidad = cantidad;
+                p.Comprador = idComprador;
+                p.Estado = 0;
+                p.PuntoDeEntrega = PuntoEntrega;
+                _context.Pedidos.Add(p);
+                _context.SaveChanges();
+                ViewBag.PedidoRealizado = true; 
+            }catch(Exception ex)
+            {
+                ViewBag.PedidoError = true;
+            }
+            return Inicio(1, 12);
+        }
+
+        public IActionResult VerPedidosHechos()
+        {
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+            ViewBag.cafeterias = cafeterias;
+            return View();
+        }
+
+        public IActionResult VerPedidosRecibidos()
+        {
+            List<Cuentum> cafeterias = _context.Cuenta.Where(c => c.TipoCuenta == 2).ToList();
+            ViewBag.cafeterias = cafeterias;
+            return View();
+        }
+
+        public IActionResult AceptarPedido()
+        {
+            return View();
+        }
+
+        public IActionResult RechazarPedido()
+        {
+            return View();
+        }
+
+        public IActionResult CancelarPedido()
+        {
+            return View();
+        }
+
+        public IActionResult CalificarPedido()
+        {
+            return View();
         }
     }
 }

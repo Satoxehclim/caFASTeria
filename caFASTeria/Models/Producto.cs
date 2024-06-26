@@ -17,6 +17,8 @@ public partial class Producto
 
     public int Foto { get; set; }
 
+    public int Calificacion { get; set; }
+
     public virtual Foto FotoNavigation { get; set; } = null!;
 
     public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();

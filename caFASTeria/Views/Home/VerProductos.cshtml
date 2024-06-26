@@ -1,0 +1,159 @@
+﻿@model PageViewModel<Producto>
+<h3>Productos</h3>
+<ul class="list-group mb-2">
+@{
+    if (ViewBag.OkEditar==1)
+    {
+        <li class="list-group-item list-group-item-success">El producto se modifico o se elimino correctamente</li>
+    }
+    else if (ViewBag.ErrorEditar==1)
+    {
+        <li class="list-group-item list-group-item-danger">Error al editar o eliminar el producto, volver a intentar</li>
+    }
+}
+</ul>
+<table class="table table-striped">
+    <thead class="bg-dark text-light text-center">
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Calificación</th>
+            <th><i class="fa-solid fa-utensils"></i></th>
+    </thead>
+    <tbody>
+        @foreach (Producto p in Model.Items)
+        {
+            <tr>
+                <td>@p.Nombre</td>
+                <td >@p.Descripcion</td>
+                <td class="text-center">@p.Precio</td>
+                <td class="nowrap-td">
+                    @{
+                        int numale = p.Calificacion;
+                        for (int j = 0; j < 5; j++)
+                        {
+                            if (j <= numale)
+                            {
+                                <i class="fa-solid fa-star fa-2xs" style="color: #FFD43B;"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-regular fa-star fa-2xs" style="color: #C0C0C0"></i>
+                            }
+                        }
+                    }
+                </td>
+                <td class="text-center d-grid gap-2">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditarProductoModal_@p.IdProducto">
+                        Editar
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#EliminarProductoModal_@p.IdProducto">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<nav>
+    <ul class="pagination">
+        @for(int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "Active" : "")">
+                <a class="page-link" asp-action="VerProductos" asp-route-page="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<!--Seccion de modales-->
+
+@foreach (Producto p in Model.Items)
+{
+    <!-- Modal Editar Producto -->
+    <div class="modal fade " id="EditarProductoModal_@p.IdProducto" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Editar producto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="EditarProducto" asp-controller="Home" enctype="multipart/form-data" method="post">
+                    <div class="modal-body ">
+                        <input type="hidden" name="idProducto" value="@p.IdProducto" />
+
+                        <label for="NombreProducto_@p.IdProducto" class="form-label">Nombre del producto</label>
+                        <input name="nombre" type="text" class="form-control" id="NombreProducto_@p.IdProducto" value="@p.Nombre" maxlength="100" minlength="1" required>
+
+                        <label for="EditarProducto_@p.IdProducto">Descripcion del producto:</label>
+                        <textarea id="EditarProducto_@p.IdProducto" name="Descripcion" class="form-control" maxlength="250" required>@p.Descripcion</textarea>
+                        <small id="EditarProductocharCount_@p.IdProducto" class="form-text char-count">250 caracteres restantes</small>
+
+                        <label for="CostoProducto_@p.IdProducto" class="form-label">Costo del producto</label>
+                        <input name="costo" type="text" class="form-control" id="CostoProducto_@p.IdProducto" value="@p.Precio" required>
+
+                        <label class="form-label" for="fotoProducto_@p.IdProducto">Foto del Producto (Recomendado 500px X 500px)</label>
+                        <input name="foto" type="file" class="form-control" id="fotoProducto_@p.IdProducto" accept=".jpg, .jpeg, .png">
+                        <div class="d-flex justify-content-center align-items-center ">
+                            <div class="preview" id="file-preview_@p.IdProducto">
+                                <img src="@Url.Action("GetImage", "Home", new { filename = p.FotoNavigation.Direcion })" alt="..." />
+                            </div>
+                        </div>
+                        <script>
+                            var textarea = document.getElementById('EditarProducto_@p.IdProducto');
+                            var charCount = document.getElementById('EditarProductocharCount_@p.IdProducto');
+
+                            textarea.addEventListener('input', function () {
+                                var remaining = 250 - textarea.value.length;
+                                charCount.textContent = remaining + ' caracteres restantes';
+                            });
+                            document.getElementById('fotoProducto_@p.IdProducto').addEventListener('change', function (event) {
+                                const file = event.target.files[0];
+                                const preview = document.getElementById('file-preview_@p.IdProducto');
+                                preview.innerHTML = ''; // Limpiar cualquier vista previa anterior
+
+                                if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
+                                    const reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        const img = document.createElement('img');
+                                        img.src = e.target.result;
+                                        preview.appendChild(img);
+                                    };
+                                    reader.readAsDataURL(file);
+                                } else {
+                                    preview.textContent = 'Por favor selecciona un archivo JPG o PNG válido.';
+                                }
+                            });
+                        </script>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Editar Producto</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar Producto -->
+    <div class="modal fade " id="EliminarProductoModal_@p.IdProducto" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Eliminar producto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="EliminarProducto" asp-controller="Home" enctype="multipart/form-data" method="post">
+                    <div class="modal-body ">
+                        <input type="hidden" name="idProducto" value="@p.IdProducto" />
+                        <h4>¿Esta seguro de eliminar el producto @p.Nombre?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Eliminar Producto</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

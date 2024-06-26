@@ -23,10 +23,9 @@ public partial class CaFasteriaContext : DbContext
 
     public virtual DbSet<Producto> Productos { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
+    public virtual DbSet<TipoCuentum> TipoCuenta { get; set; }
 
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){ }
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
 //        => optionsBuilder.UseSqlServer("server=localhost; database=caFASTeria; integrated security=true; TrustServerCertificate=Yes");
 
@@ -51,10 +50,16 @@ public partial class CaFasteriaContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("telefono");
+            entity.Property(e => e.TipoCuenta).HasColumnName("tipoCuenta");
             entity.Property(e => e.Usuario)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("usuario");
+
+            entity.HasOne(d => d.TipoCuentaNavigation).WithMany(p => p.Cuenta)
+                .HasForeignKey(d => d.TipoCuenta)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__cuenta__tipoCuen__5CD6CB2B");
         });
 
         modelBuilder.Entity<Foto>(entity =>
@@ -65,7 +70,6 @@ public partial class CaFasteriaContext : DbContext
 
             entity.Property(e => e.Idfoto).HasColumnName("idfoto");
             entity.Property(e => e.Direcion)
-                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("direcion");
         });
@@ -81,6 +85,10 @@ public partial class CaFasteriaContext : DbContext
             entity.Property(e => e.Comprador).HasColumnName("comprador");
             entity.Property(e => e.Estado).HasColumnName("estado");
             entity.Property(e => e.Producto).HasColumnName("producto");
+            entity.Property(e => e.PuntoDeEntrega)
+                .HasMaxLength(250)
+                .IsUnicode(false)
+                .HasColumnName("puntoDeEntrega");
 
             entity.HasOne(d => d.CompradorNavigation).WithMany(p => p.Pedidos)
                 .HasForeignKey(d => d.Comprador)
@@ -99,6 +107,7 @@ public partial class CaFasteriaContext : DbContext
             entity.ToTable("producto");
 
             entity.Property(e => e.IdProducto).HasColumnName("idProducto");
+            entity.Property(e => e.Calificacion).HasColumnName("calificacion");
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(250)
                 .IsUnicode(false)
@@ -118,6 +127,19 @@ public partial class CaFasteriaContext : DbContext
             entity.HasOne(d => d.VendedorNavigation).WithMany(p => p.Productos)
                 .HasForeignKey(d => d.Vendedor)
                 .HasConstraintName("FK__producto__vended__4D94879B");
+        });
+
+        modelBuilder.Entity<TipoCuentum>(entity =>
+        {
+            entity.HasKey(e => e.IdTipoCuenta).HasName("PK__tipoCuen__584127ACC8954664");
+
+            entity.ToTable("tipoCuenta");
+
+            entity.Property(e => e.IdTipoCuenta).HasColumnName("idTipoCuenta");
+            entity.Property(e => e.Tipo)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("tipo");
         });
 
         OnModelCreatingPartial(modelBuilder);

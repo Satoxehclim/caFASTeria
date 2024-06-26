@@ -15,7 +15,11 @@ public partial class Cuentum
 
     public string Telefono { get; set; } = null!;
 
+    public int TipoCuenta { get; set; }
+
     public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
 
     public virtual ICollection<Producto> Productos { get; set; } = new List<Producto>();
+
+    public virtual TipoCuentum TipoCuentaNavigation { get; set; } = null!;
 }
