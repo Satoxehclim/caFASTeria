@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("caFASTeria")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a469f37de74897d3d3175701ea16b9afc0f295f8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7aeffff851fb8c5574bf08a05fb279e6199fc189")]
 [assembly: System.Reflection.AssemblyProductAttribute("caFASTeria")]
 [assembly: System.Reflection.AssemblyTitleAttribute("caFASTeria")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

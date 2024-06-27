@@ -2,11 +2,19 @@
 @using System.Text.Json;
 @using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor httpContextAccesor;
+@{
+    string compradorJson = httpContextAccesor.HttpContext.Session.GetString("_cuenta");
+    Cuentum _comprador = JsonSerializer.Deserialize<Cuentum>(compradorJson);
+}
 
 <!-- Section-->
 <section class="py-5">
-    <div class="container px-4 px-lg-5 mt-5">
-        <ul class="list-group">
+    <div class="container px-4 px-lg-5">
+        <form asp-action="buscarProducto" class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search" name="nombreProductoBuscado">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+        <ul class="list-group mb-3">
             @if (ViewBag.PedidoRealizado == true)
             {
                 <li class="list-group-item list-group-item-success">Compra Realizada con Exito</li>
@@ -17,11 +25,8 @@
             }
         </ul>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            @{
-                string compradorJson = httpContextAccesor.HttpContext.Session.GetString("_cuenta");
-                Cuentum _comprador = JsonSerializer.Deserialize<Cuentum>(compradorJson);
-                foreach (Producto p in Model.Items)
-                {
+                
+                @foreach (Producto p in Model.Items){
                     <div class="col mb-5">
                         <div class="card bg-dark h-100">
                             <!-- Product image-->
@@ -63,7 +68,7 @@
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-outline-light mt-auto" data-toggle="modal" data-target="#Producto_@p.IdProducto">
+                                    <button type="button" class="btn btn-outline-light mt-auto" data-bs-toggle="modal" data-bs-target="#ComprarProducto_@p.IdProducto">
                                         Realizar pedido
                                     </button>
                                 </div>
@@ -71,7 +76,7 @@
                         </div>
                     </div>
                 }
-            }
+            
         </div>
     </div>
     <nav>
@@ -98,17 +103,14 @@
 </section>
 <!-- Seccion de Modales -->
 <!--  ModalComprar -->
-@foreach (Producto p in Model.Items)
-{
+@foreach (Producto p in Model.Items){
     <form asp-action="Comprar" method="post">
-        <div class="modal fade" id="Producto_@p.IdProducto">
-            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal fade" id="ComprarProducto_@p.IdProducto">
+            <div class="modal-dialog  modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h6>Comprar Producto</h6>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h6 class="">
@@ -133,7 +135,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="submit">Realizar Compra</button>
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>

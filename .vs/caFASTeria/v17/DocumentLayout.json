@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|c:\\users\\xehcl\\onedrive\\documentos\\cafasteria\\cafasteria\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|solutionrelative:cafasteria\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|c:\\users\\xehcl\\onedrive\\documentos\\cafasteria\\cafasteria\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|solutionrelative:cafasteria\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\cafasteria\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|c:\\users\\xehcl\\onedrive\\documentos\\cafasteria\\cafasteria\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|solutionrelative:cafasteria\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\cafasteria\\views\\home\\verproductos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|solutionrelative:cafasteria\\views\\home\\verproductos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|c:\\users\\xehcl\\onedrive\\documentos\\cafasteria\\cafasteria\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|solutionrelative:cafasteria\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|c:\\users\\xehcl\\onedrive\\documentos\\cafasteria\\cafasteria\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|solutionrelative:cafasteria\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|c:\\users\\xehcl\\onedrive\\documentos\\cafasteria\\cafasteria\\views\\home\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|solutionrelative:cafasteria\\views\\home\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1BA209B6-BEC9-4782-8FDA-A793A20EE5BF}|caFASTeria\\caFASTeria.csproj|c:\\users\\xehcl\\onedrive\\documentos\\cafasteria\\cafasteria\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -34,83 +30,69 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "caFASTeria\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "caFASTeria\\Views\\Home\\Index.cshtml",
-              "ViewState": "AQIAACEAAAAAAAAAAAAAAB8AAABVAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-13T23:51:13.136Z",
-              "IsPinned": true,
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Program.cs",
+              "RelativeDocumentMoniker": "caFASTeria\\Program.cs",
+              "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Program.cs",
+              "RelativeToolTip": "caFASTeria\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T21:55:05.333Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "caFASTeria\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "caFASTeria\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAIEAAAAAAAAAAAAAAIkAAAB/AAAA",
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Home\\Register.cshtml",
+              "RelativeDocumentMoniker": "caFASTeria\\Views\\Home\\Register.cshtml",
+              "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Home\\Register.cshtml",
+              "RelativeToolTip": "caFASTeria\\Views\\Home\\Register.cshtml",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAACcAAABfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-26T20:05:50.955Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "caFASTeria\\wwwroot\\css\\site.css",
-              "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "caFASTeria\\wwwroot\\css\\site.css",
-              "ViewState": "AQIAAIIAAAAAAAAAAAAAAIoAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-06-26T19:47:16.337Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "site.js",
-              "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\js\\site.js",
-              "RelativeDocumentMoniker": "caFASTeria\\wwwroot\\js\\site.js",
-              "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\js\\site.js",
-              "RelativeToolTip": "caFASTeria\\wwwroot\\js\\site.js",
-              "ViewState": "AQIAAA8AAAAAAAAAAADwvxcAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-06-26T19:19:50.199Z",
+              "WhenOpened": "2024-06-27T20:11:12.115Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "VerProductos.cshtml",
-              "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Home\\VerProductos.cshtml",
-              "RelativeDocumentMoniker": "caFASTeria\\Views\\Home\\VerProductos.cshtml",
-              "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Home\\VerProductos.cshtml",
-              "RelativeToolTip": "caFASTeria\\Views\\Home\\VerProductos.cshtml",
-              "ViewState": "AQIAAE0AAAAAAAAAAAAAAFUAAACfAAAA",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "caFASTeria\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "caFASTeria\\Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAFwAAAAAAAAAAAAEwGkAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-26T12:33:52.679Z",
+              "WhenOpened": "2024-06-27T20:04:19.741Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "caFASTeria\\wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "caFASTeria\\wwwroot\\css\\site.css",
+              "ViewState": "AQIAAHsAAAAAAAAAAAAAAJgAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-06-27T11:31:03.926Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "caFASTeria\\Controllers\\HomeController.cs",
               "ToolTip": "C:\\Users\\Xehcl\\OneDrive\\Documentos\\caFASTeria\\caFASTeria\\Controllers\\HomeController.cs",
               "RelativeToolTip": "caFASTeria\\Controllers\\HomeController.cs",
-              "ViewState": "AQIAAG4BAAAAAAAAAAAcwHwBAAAgAAAA",
+              "ViewState": "AQIAAFMAAAAAAAAAAAAuwG0AAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-11T17:36:28.388Z",
               "EditorCaption": ""

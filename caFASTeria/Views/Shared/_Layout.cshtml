@@ -98,9 +98,19 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" asp-action="VerPedidos" asp-controller="Home">
-                                            <i class="fa-solid fa-utensils"></i> Ver mis Pedidos
+                                        <a class="dropdown-item" asp-action="VerPedidosHechos" asp-controller="Home">
+                                            <i class="fa-solid fa-utensils"></i> Ver Pedidos Realizados
                                         </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="VerPedidosRecibidos" asp-controller="Home">
+                                            <i class="fa-solid fa-kitchen-set"></i> Ver Pedidos Recibidos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#PerfilModal">
+                                            <i class="fa-solid fa-user-pen"></i> Ver Perfil
+                                        </button>
                                     </li>
                                     <li>
                                         <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
@@ -178,9 +188,45 @@
             </div>
         </div>
     </div>
+    <!-- Ver Pergil Modal-->
+    <div class="modal fade" id="PerfilModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Perfil de @_cuenta.Nombre</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="EditarPerfil" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="idCuenta" value="@_cuenta.IdCuenta" />
+
+                        <label for="nombreCuentaPerfil" class="form-label">Nombre de la cuenta:</label>
+                        <input type="text" id="nombreCuentaPerfil" class="form-control" name="nombre" value="@_cuenta.Nombre" required />
+                        
+                        <label for="CorreoCuentaPerfil" class="form-label">Correo de la cuenta:</label>
+                        <input type="text" id="CorreoCuentaPerfil" class="form-control" name="correo" value="@_cuenta.Usuario" required />
+                        
+                        <label for="contrasenaCuentaPerfil" class="form-label">Contraseña de la cuenta:</label>
+                        <input type="password" id="contrasenaCuentaPerfil" class="form-control" name="contrase" value="@_cuenta.Contrasena" required />
+                        <span class="input-group-text" id="toggle-password-editar">
+                            <i class="fa-solid fa-eye" id="toggle-password-icon"></i>
+                        </span>
+                        
+                        <label for="TelefonoCuentaPerfil" class="form-label">Telefono de la cuenta:</label>
+                        <input type="text" id="TelefonoCuentaPerfil" class="form-control" name="telefono" maxlength="10" value="@_cuenta.Telefono" required />
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Editar Perfil</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <footer class="footer bg-dark">
         <div class="container">
-            &copy; 2024 - caFASTeria - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - caFASTeria - <a class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"  asp-action="QuienesSomos">¿Quienes Somos?</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

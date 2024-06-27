@@ -1,0 +1,116 @@
+﻿@model PageViewModel<Pedido>
+<h3>Mis pedidos realizados</h3>
+<ul class="list-group mb-2">
+</ul>
+<div class="table-responsive">
+    <table class="table table-striped">
+    <thead class="bg-dark text-light text-center">
+        <th >Numero de Pedido</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Total de compra</th>
+        <th>Punto de Entrega</th>
+        <th>Comprador</th>
+        <th>Estado</th>
+    <th><i class="fa-solid fa-burger"></i></th>
+    </thead>
+    <tbody>
+        @foreach (Pedido p in Model.Items)
+        {
+            <tr>
+                <td class="text-center">@p.IdPedido</td>
+                <td>@p.ProductoNavigation.Nombre</td>
+                <td class="text-center">@p.Cantidad</td>
+                <td class="text-center">
+                    @{
+                        double total = p.Cantidad * p.ProductoNavigation.Precio;
+                    }
+                    $@total
+                </td>
+                <td>@p.PuntoDeEntrega</td>
+                <td>@p.CompradorNavigation.Nombre</td>
+                <td class="text-center">
+                    @if (p.Estado == 0)
+                    {
+                        <p>Pedido</p>
+                    }
+                    else if (p.Estado == 1)
+                    {
+                        <p>Aceptado</p>
+                    }
+                    else if (p.Estado == 2)
+                    {
+                        <p>Rechazado</p>
+                    }
+                    else if (p.Estado == 3)
+                    {
+                        <p>Cancelado</p>
+                    }
+                    else if (p.Estado == 4)
+                    {
+                        <p>Entregado</p>
+                    }
+                    else if (p.Estado == 5)
+                    {
+                        <p>Calificado</p>
+                    }
+                </td>
+                <td class="text-center d-grid gap-2">
+                    @if (p.Estado == 0 )
+                    {
+                        <form asp-action="AceptarPedido" method="post">
+                            <input type="hidden" name="idPedido" value="@p.IdPedido" />
+                            <button type="submit" class="btn btn-success">
+                                Aceptar Pedido
+                            </button>
+                        </form>
+                        <form asp-action="RechazarPedido" method="post">
+                            <input type="hidden" name="idPedido" value="@p.IdPedido" />
+                            <button type="submit" class="btn btn-danger">
+                                Rechazar Pedido
+                            </button>
+                        </form>
+                    }
+                    else if (p.Estado == 1)
+                    {
+                        <form asp-action="EntregarPedido" method="post">
+                            <input type="hidden" name="idPedido" value="@p.IdPedido" />
+                            <button type="submit" class="btn btn-primary">
+                                 Entregar Pedido
+                            </button>
+                        </form>
+                    }
+                    else if (p.Estado == 2)
+                    {
+                        <p class="bg-danger text-light">Pedido Rechazado</p>
+                    }
+                    else if (p.Estado == 3)
+                    {
+                        <p class="bg-danger text-light">Pedido Cancelado</p>
+                    }
+                    else if (p.Estado == 4)
+                    {
+                        <p class="bg-success text-light">Pedido Entregado</p>
+                    }
+                    else if (p.Estado == 5)
+                    {
+                        <p class="bg-success text-light">Pedido Calificado <i class="fa-solid fa-star" style="color: #FFD43B;"></i></p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+</div>
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "Active" : "")">
+                <a class="page-link" asp-action="VerProductos" asp-route-page="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
+

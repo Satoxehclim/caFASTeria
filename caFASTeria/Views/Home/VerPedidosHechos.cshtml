@@ -1,0 +1,178 @@
+﻿@model PageViewModel<Pedido>
+<h3>Mis pedidos realizados</h3>
+<ul class="list-group mb-2">
+</ul>
+<div class="table-responsive">
+
+<table class="table table-striped">
+    <thead class="bg-dark text-light text-center">
+        <th>Numero de Pedido</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Total de compra</th>
+        <th>Punto de Entrega</th>
+        <th>Estado</th>
+        <th><i class="fa-solid fa-burger"></i></th>
+    </thead>
+    <tbody>
+        @foreach (Pedido p in Model.Items)
+        {
+            <tr>
+                <td class="text-center">@p.IdPedido</td>
+                <td>@p.ProductoNavigation.Nombre</td>
+                <td class="text-center">@p.Cantidad</td>
+                <td class="text-center">
+                    @{
+                        double total = p.Cantidad * p.ProductoNavigation.Precio;
+                    }
+                    $@total
+                </td>
+                <td>@p.PuntoDeEntrega</td>
+                <td class="text-center">
+                    @if (p.Estado == 0)
+                    {
+                        <p>Pedido</p>
+                    }
+                    else if (p.Estado == 1)
+                    {
+                        <p>Aceptado</p>
+                    }
+                    else if (p.Estado == 2)
+                    {
+                        <p>Rechazado</p>
+                    }
+                    else if (p.Estado == 3)
+                    {
+                        <p>Cancelado</p>
+                    }
+                    else if (p.Estado == 4)
+                    {
+                        <p>Entregado</p>
+                    }
+                    else if (p.Estado == 5)
+                    {
+                        <p>Calificado</p>
+                    }
+                </td>
+                <td class="text-center d-grid gap-2">
+                    @if (p.Estado == 0 || p.Estado == 1)
+                    {
+                        <form asp-action="CancelarPedido" method="post">
+                            <input type="hidden" name="idPedido" value="@p.IdPedido" />
+                            <button type="submit" class="btn btn-danger">
+                                Cancelar
+                            </button>
+                        </form>
+                    }
+                    else if (p.Estado == 2 || p.Estado == 3 || p.Estado == 5)
+                    {
+                        <form asp-action="ComprarDeNuevo" method="post">
+                            <input type="hidden" name="idPedido" value="@p.IdPedido" />
+                            <button type="submit" class="btn btn-primary">
+                                Volver a comprar
+                            </button>
+                        </form>
+                    }
+                    else if (p.Estado == 4)
+                    {
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CalificarPedidoModal_@p.IdPedido">
+                            Calificar Producto
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "Active" : "")">
+                <a class="page-link" asp-action="VerProductos" asp-route-page="@i" asp-route-pageSize="@Model.PageSize">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+<!--Seccion de modales-->
+@foreach (Pedido p in Model.Items)
+{
+    <!-- Modal Calificar Producto -->
+    <div class="modal fade " id="CalificarPedidoModal_@p.IdPedido" data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Calificar producto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="CalificarPedido" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="idProducto" value="@p.Producto" />
+                        <input type="hidden" name="idPedido" value="@p.IdPedido" />
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="calificacion" id="cal1-@p.Producto" value="1">
+                            <label class="form-check-label" for="cal1-@p.Producto">
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                1 Estrella
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="calificacion" id="cal2-@p.Producto" value="2">
+                            <label class="form-check-label" for="cal2-@p.Producto">
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                2 Estrellas
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="calificacion" id="cal3-@p.Producto" value="3">
+                            <label class="form-check-label" for="cal3-@p.Producto">
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                3 Estrellas
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="calificacion" id="cal4-@p.Producto" value="4">
+                            <label class="form-check-label" for="cal4-@p.Producto">
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-regular fa-star" style="color: #C0C0C0"></i>
+                                4 Estrellas
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="calificacion" id="cal5-@p.Producto" value="5">
+                            <label class="form-check-label" for="cal5-@p.Producto">
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                5 Estrellas
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Calificar Producto</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
